@@ -1,0 +1,38 @@
+#maze-container {
+    display: grid;
+    grid-template-columns: repeat(10, 40px);
+    grid-template-rows: repeat(10, 40px);
+    gap: 2px;
+    margin: 20px auto;
+    width: fit-content;
+  }
+  
+  .cell {
+    width: 40px;
+    height: 40px;
+    background: #eee;
+    border-radius: 6px;
+  }
+  
+  .wall {
+    background: #444;
+  }
+  
+  .player {
+    background-color: #ff66b2;
+    animation: bounce 0.3s infinite alternate;
+  }
+  
+  .cake {
+    background-image: url("assets/cake.png");
+    background-size: cover;
+  }
+  
+  @keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+  }
+  
+
+
+  
