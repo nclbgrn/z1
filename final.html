@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -22,6 +22,7 @@
       color: #ccc;
       padding: 2rem 1rem 3rem;
       user-select: none;
+      overflow-x: hidden; /* Prevent horizontal scroll during some animations */
     }
     h1 {
       font-weight: 900;
@@ -260,24 +261,53 @@
       margin-top: 0.3rem;
       text-shadow: 0 0 5px #330000;
     }
+    /* Enhanced Locker Scene */
     #locker-scene {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(to bottom right, #555, #222);
+      background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%); /* Deeper gradient */
       display: none;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       z-index: 9999;
-      opacity: 0; /* Start invisible */
-      transition: opacity 0.5s ease-in-out;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+      overflow: hidden; /* Hide overflow from particles */
     }
     #locker-scene.visible {
       opacity: 1;
     }
+    #locker-scene.hiding {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+
+    /* Particle effect for locker scene background */
+    #locker-scene::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, #00bfff30 5%, transparent 20%),
+                    radial-gradient(circle, #42d8f420 10%, transparent 30%);
+        background-size: 50px 50px, 80px 80px;
+        animation: subtleGridMove 30s linear infinite;
+        opacity: 0.2;
+        z-index: -1;
+    }
+
+    @keyframes subtleGridMove {
+        from { background-position: 0 0, 0 0; }
+        to { background-position: 100px 100px, 160px 160px; }
+    }
+
 
     .locker-door {
       width: 300px;
@@ -293,15 +323,29 @@
       height: 100%;
       background-color: #4b4b4b;
       border: 2px solid #222;
-      transition: transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* More bouncy transition */
+      transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55), /* More bouncy transition */
+                  box-shadow 0.5s ease;
       box-shadow: 0 0 15px rgba(0,0,0,0.7);
+      background: linear-gradient(145deg, #5c5c5c, #3a3a3a); /* Slightly metallic look */
+      position: relative; /* For the 'push' effect on correct */
+      transform-origin: left; /* Left door opens from left */
+      transform-origin: right; /* Right door opens from right */
+    }
+    .locker-left-door {
+        transform-origin: left center;
+    }
+    .locker-right-door {
+        transform-origin: right center;
     }
 
+
     .locker-left-door.open {
-      transform: translateX(-110%); /* Open wider */
+      transform: translateX(-120%) rotateY(-20deg); /* Open wider and slight rotation */
+      box-shadow: -20px 0 30px rgba(0,0,0,0.8); /* Shadow when open */
     }
     .locker-right-door.open {
-      transform: translateX(110%); /* Open wider */
+      transform: translateX(120%) rotateY(20deg); /* Open wider and slight rotation */
+      box-shadow: 20px 0 30px rgba(0,0,0,0.8); /* Shadow when open */
     }
 
     .locker-combination {
@@ -321,16 +365,16 @@
     .code-inputs {
       display: flex;
       justify-content: center;
-      gap: 15px; /* Increased gap */
-      margin: 20px 0; /* More margin */
+      gap: 18px; /* Increased gap */
+      margin: 25px 0; /* More margin */
     }
 
     .code-digit {
-      width: 60px; /* Larger */
-      height: 70px; /* Larger */
-      font-size: 2.5rem; /* Larger font */
+      width: 65px; /* Larger */
+      height: 75px; /* Larger */
+      font-size: 2.8rem; /* Larger font */
       text-align: center;
-      border-radius: 8px; /* Slightly more rounded */
+      border-radius: 10px; /* Slightly more rounded */
       border: 2px solid #00bfff; /* Border color */
       background: #0a0a0a;
       color: #00bfff;
@@ -338,66 +382,214 @@
       transition: all 0.2s ease-in-out;
       box-shadow: 0 0 10px rgba(0, 191, 255, 0.4); /* Glow effect */
       outline: none; /* Remove default outline */
+      caret-color: #00d9ff; /* Blinking cursor color */
     }
     .code-digit:focus {
       border-color: #00d9ff;
-      box-shadow: 0 0 15px #00d9ff;
-      transform: scale(1.05); /* Slight scale on focus */
+      box-shadow: 0 0 20px #00d9ff, inset 0 0 8px #00d9ff; /* More intense glow */
+      transform: scale(1.08); /* More pronounced scale on focus */
+      background: #071b2c; /* Darker background on focus */
     }
 
     #submit-code {
-      padding: 12px 25px; /* Larger padding */
-      font-size: 1.2rem; /* Larger font */
+      padding: 15px 30px; /* Larger padding */
+      font-size: 1.3rem; /* Larger font */
       cursor: pointer;
       background: linear-gradient(135deg, #00bfff, #007bff); /* Gradient background */
       border: none;
-      border-radius: 12px; /* More rounded */
+      border-radius: 15px; /* More rounded */
       color: #1a1a1a; /* Darker text for contrast */
       font-weight: 700;
-      box-shadow: 0 5px 15px rgba(0, 191, 255, 0.6);
-      transition: all 0.3s ease;
+      box-shadow: 0 5px 18px rgba(0, 191, 255, 0.6);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncier transition */
       font-family: 'Orbitron', monospace, sans-serif;
+      position: relative;
+      overflow: hidden;
     }
     #submit-code:hover {
       background: linear-gradient(135deg, #00d9ff, #00aaff);
-      box-shadow: 0 8px 20px rgba(0, 191, 255, 0.8);
-      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 191, 255, 0.8);
+      transform: translateY(-3px) scale(1.02);
     }
     #submit-code:active {
       transform: translateY(0);
-      box-shadow: 0 3px 10px rgba(0, 191, 255, 0.6);
+      box-shadow: 0 3px 12px rgba(0, 191, 255, 0.6);
     }
+    /* Shimmer effect for submit button */
+    #submit-code::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: skewX(-20deg);
+        transition: left 0.7s ease-in-out;
+        z-index: 1;
+    }
+    #submit-code:hover::before {
+        left: 125%;
+    }
+
 
     #code-feedback {
         min-height: 24px;
-        margin-top: 15px; /* More margin */
+        margin-top: 20px; /* More margin */
         font-weight: 700;
-        font-size: 1.1rem;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.5); /* Subtle glow on text */
+        font-size: 1.2rem;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.6); /* Subtle glow on text */
     }
 
     /* Animation for wrong code */
     .code-input-shake {
         animation: shakeCode 0.5s;
         border-color: #ff3b3b !important;
-        box-shadow: 0 0 15px #ff3b3b !important;
+        box-shadow: 0 0 20px #ff3b3b !important;
+        background: #3c0f0f !important;
     }
     @keyframes shakeCode {
-        0%, 100% { transform: translateX(0); }
-        20%, 60% { transform: translateX(-8px); }
-        40%, 80% { transform: translateX(8px); }
+        0%, 100% { transform: translateX(0) scale(1); }
+        20%, 60% { transform: translateX(-12px) scale(1.05); }
+        40%, 80% { transform: translateX(12px) scale(1.05); }
     }
 
     /* Animation for correct code */
     .code-input-correct {
         border-color: #4fff68 !important;
-        box-shadow: 0 0 15px #4fff68 !important;
-        animation: glowAndPulse 0.8s forwards;
+        box-shadow: 0 0 25px #4fff68 !important;
+        animation: glowAndPulse 1s forwards, shimmerDigits 1.5s infinite linear; /* Added shimmerDigits */
     }
     @keyframes glowAndPulse {
-        0% { transform: scale(1); box-shadow: 0 0 10px #4fff68; }
-        50% { transform: scale(1.08); box-shadow: 0 0 25px #4fff68, 0 0 40px #4fff68; }
-        100% { transform: scale(1); box-shadow: 0 0 15px #4fff68; }
+        0% { transform: scale(1); box-shadow: 0 0 15px #4fff68; }
+        50% { transform: scale(1.1); box-shadow: 0 0 30px #4fff68, 0 0 50px #4fff68; }
+        100% { transform: scale(1); box-shadow: 0 0 20px #4fff68; }
+    }
+    /* Shimmer effect for correct digits */
+    @keyframes shimmerDigits {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .code-input-correct {
+        background: linear-gradient(90deg, #0a0a0a 0%, #4fff6830 20%, #0a0a0a 40%);
+        background-size: 200% 100%;
+        animation: glowAndPulse 1s forwards, shimmerDigits 1.5s infinite linear;
+    }
+
+
+    /* Transition Overlay for page change */
+    #transition-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: transparent;
+        z-index: 10000; /* Above everything else */
+        display: none;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden; /* Important for glitch effect */
+    }
+
+    #transition-overlay.active {
+        display: flex;
+    }
+
+    .glitch-text {
+        font-family: 'Orbitron', monospace, sans-serif;
+        font-size: 4rem;
+        color: #00bfff;
+        text-shadow: 0 0 20px #00bfff, 0 0 40px #00d9ff;
+        position: relative;
+        animation: text-fade-in 1s forwards;
+    }
+
+    @keyframes text-fade-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Glitch effect for overlay */
+    .glitch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #000; /* Base glitch background */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 5rem;
+        color: #f0f; /* Magenta */
+        text-shadow: 0 0 10px #0ff, 0 0 20px #0ff, 0 0 30px #f0f;
+        overflow: hidden;
+        animation: glitch-bg 0.8s infinite alternate, fade-in 1s forwards;
+    }
+
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes glitch-bg {
+        0% { transform: translate(0, 0); opacity: 1; }
+        20% { transform: translate(-2px, 2px); opacity: 0.9; }
+        40% { transform: translate(-5px, -5px); opacity: 1; }
+        60% { transform: translate(3px, 3px); opacity: 0.8; }
+        80% { transform: translate(0, 0); opacity: 1; }
+        100% { transform: translate(6px, -6px); opacity: 0.9; }
+    }
+
+    .glitch::before,
+    .glitch::after {
+        content: 'ACCESS GRANTED';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: inherit;
+        color: inherit;
+        overflow: hidden;
+    }
+
+    .glitch::before {
+        left: 2px;
+        text-shadow: -2px 0 #0ff;
+        animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    }
+
+    .glitch::after {
+        left: -2px;
+        text-shadow: -2px 0 #f0f;
+        animation: glitch-anim-2 2s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+        0% { clip: rect(20px, 9999px, 80px, 0); }
+        10% { clip: rect(100px, 9999px, 150px, 0); }
+        20% { clip: rect(180px, 9999px, 220px, 0); }
+        30% { clip: rect(50px, 9999px, 120px, 0); }
+        40% { clip: rect(200px, 9999px, 250px, 0); }
+        50% { clip: rect(10px, 9999px, 60px, 0); }
+        60% { clip: rect(130px, 9999px, 190px, 0); }
+        70% { clip: rect(230px, 9999px, 280px, 0); }
+        80% { clip: rect(70px, 9999px, 140px, 0); }
+        90% { clip: rect(160px, 9999px, 210px, 0); }
+        100% { clip: rect(0px, 9999px, 20px, 0); }
+    }
+
+    @keyframes glitch-anim-2 {
+        0% { clip: rect(100px, 9999px, 150px, 0); }
+        15% { clip: rect(20px, 9999px, 80px, 0); }
+        30% { clip: rect(200px, 9999px, 250px, 0); }
+        45% { clip: rect(50px, 9999px, 120px, 0); }
+        60% { clip: rect(180px, 9999px, 220px, 0); }
+        75% { clip: rect(230px, 9999px, 280px, 0); }
+        90% { clip: rect(10px, 9999px, 60px, 0); }
+        100% { clip: rect(130px, 9999px, 190px, 0); }
     }
 
   </style>
@@ -440,6 +632,10 @@
       <div id="code-feedback"></div>
     </div>
   </div>
+
+  <div id="transition-overlay">
+      <div class="glitch-text">ACCESS GRANTED</div>
+  </div>
   
 <script>
   const doorContainer = document.getElementById('doorContainer');
@@ -457,21 +653,22 @@
   const codeDigits = document.querySelectorAll(".code-digit");
   const submitCodeBtn = document.getElementById("submit-code");
   const codeFeedback = document.getElementById("code-feedback");
+  const transitionOverlay = document.getElementById('transition-overlay');
 
   const correctLockerCode = "0002"; // Your desired correct code is now 0002!
 
   // Relationship questions & acceptable answers (lowercase)
   const questions = [
-    { q: "Where did we have our first date?", a: ["park", "restaurant", "cafe"] },
-    { q: "What's my favorite color?", a: ["pink", "red", "ff416c"] },
-    { q: "What’s my go-to coffee order?", a: ["latte", "espresso"] },
-    { q: "Which movie did we watch first together?", a: ["inception", "avengers", "matrix"] },
-    { q: "What's my favorite gym workout?", a: ["biceps", "cardio", "yoga"] },
-    { q: "Where do I want to travel next?", a: ["japan", "paris", "bali"] },
-    { q: "What’s my favorite comfort food?", a: ["pizza", "burger", "ice cream"] },
-    { q: "What pet do I want someday?", a: ["dog", "cat", "rabbit"] },
-    { q: "What’s my favorite music genre?", a: ["pop", "rock", "kpop"] },
-    { q: "What’s the nickname I call you?", a: ["babe", "love", "honey"] },
+    { q: "My favourite color at the moment", a: ["navy blue"] },
+    { q: "First movie we watched together", a: ["sinister"] },
+    { q: "What food place did we go to for the third time", a: ["amihan grill"] },
+    { q: "My other last name (my dad’s last name)", a: ["tolentino"] },
+    { q: "Where did we first hangout outside the gym", a: ["wendys"] },
+    { q: "My Starbucks order", a: ["iced lavender matcha"] },
+    { q: "Color of my pants during our dance session", a: ["gray"] },
+    { q: "My comfort food", a: ["ice cream"] },
+    { q: "Date of our official date", a: ["april 28, 2025", "april 28 2025", "04/28/2025", "4/28/2025"] },
+    { q: "Do you like me?", a: ["yes"] },
   ];
 
   let questionsAnswered = 0;
@@ -664,6 +861,7 @@
 
     // Clear any previous feedback classes from all inputs
     codeDigits.forEach(d => d.classList.remove('code-input-shake', 'code-input-correct'));
+    codeFeedback.textContent = ''; // Clear previous feedback
 
     if (enteredCode === correctLockerCode) {
       codeFeedback.textContent = "✅ Correct! Unlocking...";
@@ -672,24 +870,32 @@
       // Add correct animation to all digits
       codeDigits.forEach(d => d.classList.add('code-input-correct'));
       
-      // Re-open doors with animation
-      leftDoor.classList.remove("open"); // Close slightly then open again
+      // Re-open doors with animation and slight "push"
+      leftDoor.classList.remove("open");
       rightDoor.classList.remove("open");
       setTimeout(() => {
-        leftDoor.classList.add("open");
+        leftDoor.style.transform = 'translateX(-125%) rotateY(-25deg)'; /* A little extra push */
+        rightDoor.style.transform = 'translateX(125%) rotateY(25deg)';
+        leftDoor.classList.add("open"); // Re-add class for normal open behavior
         rightDoor.classList.add("open");
       }, 50);
 
 
-      // Optional: Do something after door opens
+      // Trigger the transition to envelope.html
       setTimeout(() => {
-        codeFeedback.textContent = "🎉 Surprise unlocked! You did it!";
-        // You can add more actions here, e.g., display a hidden message, an image, etc.
-        // For example, display a hidden message:
-        // finalMessage.textContent = "Congratulations! Here's your surprise!";
-        // finalMessage.style.color = "gold";
-        // finalMessage.style.fontSize = "2rem";
-      }, 2000);
+        // Hide the locker scene elements
+        lockerScene.classList.add('hiding'); // Fade out and scale down
+        document.body.style.overflow = 'hidden'; // Hide scrollbar during transition
+
+        setTimeout(() => {
+          transitionOverlay.style.display = 'flex';
+          transitionOverlay.classList.add('active'); // Activate transition animation
+          
+          setTimeout(() => {
+            window.location.href = "envelope.html"; // Redirect after transition animation
+          }, 1500); // Give some time for the glitch animation to play
+        }, 800); // Delay before showing overlay, after locker scene starts hiding
+      }, 2000); // Delay before starting final transition after correct code
     } else {
       codeFeedback.textContent = "❌ Wrong code. Try again!";
       codeFeedback.style.color = "red";

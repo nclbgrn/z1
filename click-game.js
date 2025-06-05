@@ -61,7 +61,7 @@ function createButtons() {
       
         setTimeout(() => {
           window.location.href = "final.html"; // Replace with your actual file
-        }, 45000); // 4.5 seconds for a dreamy pause
+        }, 4500); // 4.5 seconds for a dreamy pause
       });
       
       
