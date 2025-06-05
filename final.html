@@ -400,189 +400,6 @@
         100% { transform: scale(1); box-shadow: 0 0 15px #4fff68; }
     }
 
-    /* Surprise Envelope & Letter Styles */
-#surprise-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8); /* Dark overlay */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000; /* Above everything else */
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
-}
-#surprise-container.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-#envelope-wrapper {
-  width: 300px;
-  height: 200px;
-  perspective: 1000px;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-style: preserve-3d;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-  border-radius: 15px;
-  display: none; /* Hidden by default */
-  opacity: 0;
-}
-#envelope-wrapper.show {
-  display: block;
-  opacity: 1;
-}
-
-#envelope-front, #envelope-back {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  border-radius: 15px;
-  background-color: #1a1a1a; /* Black envelope */
-  border: 2px solid #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 8rem;
-  color: #ff416c; /* Red heart */
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.6);
-}
-
-#envelope-back {
-  transform: rotateY(180deg);
-  background-color: #000; /* Darker back */
-  overflow: hidden; /* Ensure image doesn't overflow */
-}
-#surprise-picture {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Cover the entire area */
-  border-radius: 15px;
-  filter: grayscale(100%); /* Start grayscale */
-  transition: filter 0.8s ease-in-out;
-}
-#envelope-wrapper.flipped #surprise-picture {
-  filter: grayscale(0%); /* Full color when flipped */
-}
-
-/* Flip animation */
-#envelope-wrapper.flipped {
-  transform: rotateY(180deg);
-}
-
-/* Open envelope animation */
-#envelope-wrapper.opened {
-  animation: openEnvelope 1.2s forwards cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  transform-origin: center top; /* Rotate from top center */
-  cursor: default;
-}
-@keyframes openEnvelope {
-  0% { transform: translateY(0) rotateY(180deg) scale(1); opacity: 1; }
-  50% { transform: translateY(-50px) rotateY(180deg) scale(1.05); opacity: 0.8; } /* Lift and scale slightly */
-  100% { transform: translateY(-300px) rotateY(180deg) scale(0.5); opacity: 0; } /* Move up and shrink */
-}
-
-/* Letter Styles */
-#letter-container {
-  background: linear-gradient(145deg, #f0f0f0, #e0e0e0); /* Light paper background */
-  border: 2px solid #ccc;
-  border-radius: 10px;
-  padding: 30px; /* More padding */
-  width: 600px; /* Wider letter */
-  max-width: 90%;
-  min-height: 450px; /* Taller letter */
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-  font-family: 'Times New Roman', serif; /* Classic font for letter */
-  color: #333;
-  line-height: 1.8; /* More readable line spacing */
-  font-size: 1.1rem;
-  text-align: left;
-  position: relative;
-  overflow: hidden;
-  display: none; /* Hidden by default */
-  opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  margin-top: 50px; /* Space from envelope */
-}
-#letter-container.show {
-  display: block;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-#letter-page {
-  /* This div will hold the actual text lines */
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Align lines to top */
-}
-
-.line {
-  height: 24px; /* Fixed height for each line, adjust based on font-size and line-height */
-  border-bottom: 1px dashed #bbb; /* Dashed lines for a notebook feel */
-  margin-bottom: 8px; /* Space between lines */
-  text-indent: 1.5em; /* Indent for readability */
-  box-sizing: border-box;
-  overflow: hidden; /* Hide overflowing text */
-  white-space: pre-wrap; /* Preserve newlines and wrap text */
-  font-size: 1.1rem;
-  font-family: 'Times New Roman', serif;
-  color: #333;
-}
-.line:last-of-type {
-  border-bottom: none; /* No line under the last one */
-}
-
-#letter-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 1px solid #ddd;
-}
-
-.nav-button {
-  background: #00bfff;
-  border: none;
-  font-weight: 700;
-  font-size: 1rem;
-  padding: 0.6rem 1.2rem;
-  border-radius: 8px;
-  color: #121212;
-  cursor: pointer;
-  box-shadow: 0 3px 8px rgba(0, 191, 255, 0.4);
-  transition: all 0.2s ease;
-  font-family: 'Orbitron', monospace, sans-serif;
-}
-.nav-button:hover:not(:disabled) {
-  background: #0af;
-  box-shadow: 0 5px 12px rgba(0, 191, 255, 0.6);
-  transform: translateY(-1px);
-}
-.nav-button:disabled {
-  background: #ccc;
-  cursor: not-allowed;
-  box-shadow: none;
-  color: #777;
-}
-
-#page-number {
-  font-family: 'Orbitron', monospace, sans-serif;
-  font-size: 1rem;
-  color: #555;
-}
-
   </style>
 
 
@@ -623,434 +440,275 @@
       <div id="code-feedback"></div>
     </div>
   </div>
+  
+<script>
+  const doorContainer = document.getElementById('doorContainer');
+  const message = document.getElementById('message');
+  const questionSection = document.getElementById('questionSection');
+  const questionText = document.getElementById('questionText');
+  const answerInput = document.getElementById('answerInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const feedback = document.getElementById('feedback');
+  const finalMessage = document.getElementById('finalMessage');
+  const lockerScene = document.getElementById('locker-scene');
+  const lockerCombination = document.querySelector('.locker-combination');
+  const leftDoor = document.querySelector(".locker-left-door");
+  const rightDoor = document.querySelector(".locker-right-door");
+  const codeDigits = document.querySelectorAll(".code-digit");
+  const submitCodeBtn = document.getElementById("submit-code");
+  const codeFeedback = document.getElementById("code-feedback");
 
-  <div id="surprise-container">
-    <div id="envelope-wrapper">
-      <div id="envelope-front">
-        <span class="heart-emoji">❤️</span>
-      </div>
-      <div id="envelope-back">
-        <img id="surprise-picture" src="YOUR_PICTURE_URL_HERE.jpg" alt="Surprise Picture" />
-      </div>
-    </div>
+  const correctLockerCode = "0002"; // Your desired correct code is now 0002!
 
-    <div id="letter-container">
-      <div id="letter-page">
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-        <p class="line"></p>
-      </div>
-      <div id="letter-controls">
-        <button id="prev-page" class="nav-button" disabled>Previous Page</button>
-        <span id="page-number">Page 1 of 4</span>
-        <button id="next-page" class="nav-button">Next Page</button>
-      </div>
-    </div>
-  </div>
-  
-  <script>
-    const doorContainer = document.getElementById('doorContainer');
-    const message = document.getElementById('message');
-    const questionSection = document.getElementById('questionSection');
-    const questionText = document.getElementById('questionText');
-    const answerInput = document.getElementById('answerInput');
-    const submitBtn = document.getElementById('submitBtn');
-    const feedback = document.getElementById('feedback');
-    const finalMessage = document.getElementById('finalMessage');
-    const lockerScene = document.getElementById('locker-scene');
-    const lockerCombination = document.querySelector('.locker-combination');
-    const leftDoor = document.querySelector(".locker-left-door");
-    const rightDoor = document.querySelector(".locker-right-door");
-    const codeDigits = document.querySelectorAll(".code-digit");
-    const submitCodeBtn = document.getElementById("submit-code");
-    const codeFeedback = document.getElementById("code-feedback");
-  
-    // New elements for surprise!
-    const surpriseContainer = document.getElementById('surprise-container');
-    const envelopeWrapper = document.getElementById('envelope-wrapper');
-    const envelopeFront = document.getElementById('envelope-front');
-    const envelopeBack = document.getElementById('envelope-back'); // To show the picture
-    const surprisePicture = document.getElementById('surprise-picture');
-    const letterContainer = document.getElementById('letter-container');
-    const letterPage = document.getElementById('letter-page');
-    const prevPageBtn = document.getElementById('prev-page');
-    const nextPageBtn = document.getElementById('next-page');
-    const pageNumberSpan = document.getElementById('page-number');
-  
-    const correctLockerCode = "0002"; // Your desired correct code
-  
-    // Relationship questions & acceptable answers (lowercase)
-    const questions = [
-      { q: "Where did we have our first date?", a: ["park", "restaurant", "cafe"] },
-      { q: "What's my favorite color?", a: ["pink", "red", "ff416c"] },
-      { q: "What’s my go-to coffee order?", a: ["latte", "espresso"] },
-      { q: "Which movie did we watch first together?", a: ["inception", "avengers", "matrix"] },
-      { q: "What's my favorite gym workout?", a: ["biceps", "cardio", "yoga"] },
-      { q: "Where do I want to travel next?", a: ["japan", "paris", "bali"] },
-      { q: "What’s my favorite comfort food?", a: ["pizza", "burger", "ice cream"] },
-      { q: "What pet do I want someday?", a: ["dog", "cat", "rabbit"] },
-      { q: "What’s my favorite music genre?", a: ["pop", "rock", "kpop"] },
-      { q: "What’s the nickname I call you?", a: ["babe", "love", "honey"] },
-    ];
-  
-    // Your multi-page letter content (each element in the array is a page)
-    const letterContent = [
-      [ // Page 1
-        "My dearest [Name/Nickname],",
-        "If you're reading this, it means you've navigated through the locks of my heart (and my gym locker!). Each question you answered, each door you opened, was a little step through our shared memories.",
-        "",
-        "I put this challenge together because I wanted to create a moment, a little adventure just for you, to celebrate our connection and all the fun we have together. I hope it brought a smile to your face, even if some of those questions were a little tricky!",
-        "",
-        "This journey is a small reflection of how I feel about you. You bring so much light and joy into my life, and I cherish every moment we spend together. You truly are an amazing person.",
-        "",
-        "Now, turn the page for the next part of this little note. There's more to share, and another surprise waiting...",
-        "",
-        "With all my love,",
-        "[Your Name]"
-      ],
-      [ // Page 2
-        "Remember that time we [funny/sweet memory]? That's one of my favorites. Or when we [another memory]? Every memory with you is a treasure. You have this incredible way of making even the simplest moments feel extraordinary.",
-        "",
-        "I love your [positive quality], your [another positive quality], and especially your [third positive quality]. You inspire me to be a better person every day.",
-        "",
-        "I'm so grateful for your patience, your understanding, and your unwavering support. You're my rock, my confidant, and my best friend. Life truly is better with you by my side.",
-        "",
-        "On this journey, you've shown me that no matter the challenge, we can face it together. And that's exactly how I see our future – full of adventures, laughter, and overcoming anything that comes our way, hand in hand.",
-        "",
-        "Ready for the next chapter? Just click next!"
-      ],
-      [ // Page 3
-        "As you look at the picture on the back of the envelope, I hope it brings back a happy memory for you. That moment captures a feeling, a time, or a place that is special to us. It's a reminder of the beautiful journey we're on.",
-        "",
-        "Sometimes, life can throw curveballs, but knowing I have you makes everything seem manageable. You are my calm in the storm, and my sunshine on a cloudy day. Thank you for being you.",
-        "",
-        "I've learned so much from you, and I continue to grow because of your presence in my life. You challenge me, you support me, and you make me feel truly seen and loved.",
-        "",
-        "Just one more page... and a final thought for you. Take a deep breath, soak it all in, and prepare for the culmination of this little quest."
-      ],
-      [ // Page 4
-        "And finally, the most important message:",
-        "",
-        "You are the most incredible person I know. Every day with you is a gift, and I look forward to countless more adventures, laughs, and quiet moments together.",
-        "",
-        "Thank you for being my partner, my love, and my everything.",
-        "",
-        "I hope this little surprise made you feel even a fraction of how special you are to me. Now, come find me, and let's make some more memories!",
-        "",
-        "Forever and always,",
-        "[Your Name]"
-      ]
-    ];
-    let currentPage = 0; // Current page of the letter
-  
-    let questionsAnswered = 0;
-    let doorsPressed = 0;
-    let questionActive = false;
-    let openDoor = null;
-  
-    // Create 15 gym locker doors
-    function createDoors() {
-      doorContainer.innerHTML = '';
-      for(let i=1; i<=15; i++) {
-        const door = document.createElement('div');
-        door.classList.add('door');
-        door.dataset.index = i;
-        door.setAttribute('tabindex', '0');
-        door.setAttribute('aria-label', `Locker door number ${i}`);
-  
-        // inner container to flip
-        const inner = document.createElement('div');
-        inner.classList.add('door-inner');
-  
-        // front face
-        const front = document.createElement('div');
-        front.classList.add('door-front');
-  
-        // back face - simple text
-        const back = document.createElement('div');
-        back.classList.add('door-back');
-        back.textContent = "Locker";
-  
-        inner.appendChild(front);
-        inner.appendChild(back);
-        door.appendChild(inner);
-  
-        door.addEventListener('click', () => doorClicked(door));
-        door.addEventListener('keydown', (e) => {
-          if(e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            doorClicked(door);
-          }
-        });
-  
-        doorContainer.appendChild(door);
-      }
-    }
-  
-    function disableDoors(disabled) {
-      const doors = doorContainer.querySelectorAll('.door');
-      doors.forEach(d => {
-        if(disabled) {
-          d.style.pointerEvents = 'none';
-          d.setAttribute('aria-disabled', 'true');
-        } else {
-          d.style.pointerEvents = '';
-          d.removeAttribute('aria-disabled');
+  // Relationship questions & acceptable answers (lowercase)
+  const questions = [
+    { q: "Where did we have our first date?", a: ["park", "restaurant", "cafe"] },
+    { q: "What's my favorite color?", a: ["pink", "red", "ff416c"] },
+    { q: "What’s my go-to coffee order?", a: ["latte", "espresso"] },
+    { q: "Which movie did we watch first together?", a: ["inception", "avengers", "matrix"] },
+    { q: "What's my favorite gym workout?", a: ["biceps", "cardio", "yoga"] },
+    { q: "Where do I want to travel next?", a: ["japan", "paris", "bali"] },
+    { q: "What’s my favorite comfort food?", a: ["pizza", "burger", "ice cream"] },
+    { q: "What pet do I want someday?", a: ["dog", "cat", "rabbit"] },
+    { q: "What’s my favorite music genre?", a: ["pop", "rock", "kpop"] },
+    { q: "What’s the nickname I call you?", a: ["babe", "love", "honey"] },
+  ];
+
+  let questionsAnswered = 0;
+  let doorsPressed = 0;
+  let questionActive = false;
+  let openDoor = null;
+
+  // Create 15 gym locker doors
+  function createDoors() {
+    doorContainer.innerHTML = '';
+    for(let i=1; i<=15; i++) {
+      const door = document.createElement('div');
+      door.classList.add('door');
+      door.dataset.index = i;
+      door.setAttribute('tabindex', '0');
+      door.setAttribute('aria-label', `Locker door number ${i}`);
+
+      // inner container to flip
+      const inner = document.createElement('div');
+      inner.classList.add('door-inner');
+
+      // front face
+      const front = document.createElement('div');
+      front.classList.add('door-front');
+
+      // back face - simple text
+      const back = document.createElement('div');
+      back.classList.add('door-back');
+      back.textContent = "Locker";
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      door.appendChild(inner);
+
+      door.addEventListener('click', () => doorClicked(door));
+      door.addEventListener('keydown', (e) => {
+        if(e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          doorClicked(door);
         }
       });
+
+      doorContainer.appendChild(door);
     }
-  
-    answerInput.addEventListener('input', () => {
-      submitBtn.disabled = answerInput.value.trim() === '';
-      feedback.textContent = '';
+  }
+
+  function disableDoors(disabled) {
+    const doors = doorContainer.querySelectorAll('.door');
+    doors.forEach(d => {
+      if(disabled) {
+        d.style.pointerEvents = 'none';
+        d.setAttribute('aria-disabled', 'true');
+      } else {
+        d.style.pointerEvents = '';
+        d.removeAttribute('aria-disabled');
+      }
     });
-  
-    function closeOpenDoor() {
-      if(openDoor) {
-        openDoor.classList.remove('open');
-        openDoor = null;
-      }
+  }
+
+  answerInput.addEventListener('input', () => {
+    submitBtn.disabled = answerInput.value.trim() === '';
+    feedback.textContent = '';
+  });
+
+  function closeOpenDoor() {
+    if(openDoor) {
+      openDoor.classList.remove('open');
+      openDoor = null;
     }
-  
-    function doorClicked(door) {
-      if(questionActive) return; // ignore clicks while question active
-  
-      doorsPressed++;
-  
-      // Close previously opened door if any
-      closeOpenDoor();
-  
-      // Open the clicked door (flip animation)
-      door.classList.add('open');
-      openDoor = door;
-  
-      // IMPORTANT LOGIC: When to show the locker scene
-      if (questionsAnswered < questions.length) { // Continue showing questions
-        showQuestion(questions[questionsAnswered]);
-      } else { // All questions answered, time for the final challenge
-        message.textContent = "You found the right locker! Final step...";
-        questionSection.style.display = 'none';
-        answerInput.value = '';
-        feedback.textContent = '';
-        finalMessage.textContent = "🔒 Final Security Step!";
-        showLockerScene(); // Show locker scene
-        disableDoors(true); // Disable further door clicks
-      }
-    }
-  
-    function showQuestion(question) {
-      questionActive = true;
-      questionSection.style.display = 'block';
-      questionText.textContent = question.q;
+  }
+
+  function doorClicked(door) {
+    if(questionActive) return; // ignore clicks while question active
+
+    doorsPressed++;
+
+    // Close previously opened door if any
+    closeOpenDoor();
+
+    // Open the clicked door (flip animation)
+    door.classList.add('open');
+    openDoor = door;
+
+    // IMPORTANT LOGIC: When to show the locker scene
+    // This condition means the locker scene shows after 10 questions have been answered.
+    // If you want it after all 15 doors are clicked, change `questions.length` to `15`
+    if (questionsAnswered < questions.length) { // Continue showing questions
+      showQuestion(questions[questionsAnswered]);
+    } else { // All questions answered, time for the final challenge
+      message.textContent = "You found the right locker! Final step...";
+      questionSection.style.display = 'none';
       answerInput.value = '';
       feedback.textContent = '';
-      setInputDisabled(false);
-      answerInput.focus();
+      finalMessage.textContent = "🔒 Final Security Step!";
+      showLockerScene(); // Show locker scene
+      disableDoors(true); // Disable further door clicks
     }
-  
-    function setInputDisabled(val) {
-      answerInput.disabled = val;
-      submitBtn.disabled = val || !answerInput.value.trim();
-    }
-  
-    submitBtn.onclick = () => {
-      const currentQ = questions[questionsAnswered];
-      const userAns = answerInput.value.toLowerCase().trim();
-      const correct = currentQ.a.some(ans => userAns.includes(ans));
-  
-      if(correct) {
-        feedback.style.color = "#4fff68";
-        feedback.textContent = 'Correct!';
-        questionsAnswered++; // Increment only on correct answer
-        setTimeout(() => {
-          questionSection.style.display = 'none';
-          feedback.textContent = '';
-          answerInput.value = '';
-          message.textContent = "Choose another locker door...";
-          questionActive = false;
-          // Check if all questions are answered after a correct answer
-          if (questionsAnswered === questions.length) {
-            message.textContent = "All questions answered! Time for the final challenge...";
-            setTimeout(() => {
-              showLockerScene();
-              disableDoors(true);
-            }, 1000); // Small delay before showing locker scene
-          }
-        }, 1100);
-      } else {
-        feedback.style.color = "#ff5050";
-        feedback.textContent = 'Try again.';
-      }
-    };
-  
-    createDoors();
-  
-    function showLockerScene() {
-      // Hide game elements
-      doorContainer.style.display = 'none';
-      message.style.display = 'none';
-      questionSection.style.display = 'none';
-      finalMessage.style.display = 'none'; // Hide this too
-  
-      lockerScene.style.display = "flex";
+  }
+
+  function showQuestion(question) {
+    questionActive = true;
+    questionSection.style.display = 'block';
+    questionText.textContent = question.q;
+    answerInput.value = '';
+    feedback.textContent = '';
+    setInputDisabled(false);
+    answerInput.focus();
+  }
+
+  function setInputDisabled(val) {
+    answerInput.disabled = val;
+    submitBtn.disabled = val || !answerInput.value.trim();
+  }
+
+  submitBtn.onclick = () => {
+    const currentQ = questions[questionsAnswered];
+    const userAns = answerInput.value.toLowerCase().trim();
+    const correct = currentQ.a.some(ans => userAns.includes(ans));
+
+    if(correct) {
+      feedback.style.color = "#4fff68";
+      feedback.textContent = 'Correct!';
+      questionsAnswered++; // Increment only on correct answer
       setTimeout(() => {
-        lockerScene.classList.add('visible');
-      }, 50);
-  
+        questionSection.style.display = 'none';
+        feedback.textContent = '';
+        answerInput.value = '';
+        message.textContent = "Choose another locker door...";
+        questionActive = false;
+        // Check if all questions are answered after a correct answer
+        if (questionsAnswered === questions.length) {
+          message.textContent = "All questions answered! Time for the final challenge...";
+          setTimeout(() => {
+            showLockerScene();
+            disableDoors(true);
+          }, 1000); // Small delay before showing locker scene
+        }
+      }, 1100);
+    } else {
+      feedback.style.color = "#ff5050";
+      feedback.textContent = 'Try again.';
+    }
+  };
+
+  createDoors();
+
+  function showLockerScene() {
+    lockerScene.style.display = "flex";
+    // Add a class to trigger opacity transition
+    setTimeout(() => {
+      lockerScene.classList.add('visible');
+    }, 50); // Small delay to ensure display:flex registers first
+
+    // Animate the locker doors after delay
+    setTimeout(() => {
+      leftDoor.classList.add("open");
+      rightDoor.classList.add("open");
+    }, 1000);
+
+    // Show code entry after doors fully open
+    setTimeout(() => {
+      lockerCombination.style.display = "block";
+      lockerCombination.classList.add('visible'); // Trigger fade-in/slide-up
+      codeDigits[0].focus(); // Focus on the first digit input
+    }, 2000);
+  }
+
+  // Handle input for code digits (move focus automatically)
+  codeDigits.forEach((digitInput, index) => {
+    digitInput.addEventListener('input', () => {
+      // Remove any previous feedback classes
+      digitInput.classList.remove('code-input-shake', 'code-input-correct');
+
+      if (digitInput.value.length === 1 && index < codeDigits.length - 1) {
+        codeDigits[index + 1].focus();
+      }
+    });
+
+    digitInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Backspace' && digitInput.value.length === 0 && index > 0) {
+        codeDigits[index - 1].focus();
+      }
+    });
+  });
+
+
+  // Locker code check
+  submitCodeBtn.addEventListener("click", () => {
+    const enteredCode = Array.from(codeDigits).map(d => d.value).join("");
+
+    // Clear any previous feedback classes from all inputs
+    codeDigits.forEach(d => d.classList.remove('code-input-shake', 'code-input-correct'));
+
+    if (enteredCode === correctLockerCode) {
+      codeFeedback.textContent = "✅ Correct! Unlocking...";
+      codeFeedback.style.color = "lightgreen";
+      
+      // Add correct animation to all digits
+      codeDigits.forEach(d => d.classList.add('code-input-correct'));
+      
+      // Re-open doors with animation
+      leftDoor.classList.remove("open"); // Close slightly then open again
+      rightDoor.classList.remove("open");
       setTimeout(() => {
         leftDoor.classList.add("open");
         rightDoor.classList.add("open");
-      }, 1000);
-  
+      }, 50);
+
+
+      // Optional: Do something after door opens
       setTimeout(() => {
-        lockerCombination.style.display = "block";
-        lockerCombination.classList.add('visible');
-        codeDigits[0].focus();
+        codeFeedback.textContent = "🎉 Surprise unlocked! You did it!";
+        // You can add more actions here, e.g., display a hidden message, an image, etc.
+        // For example, display a hidden message:
+        // finalMessage.textContent = "Congratulations! Here's your surprise!";
+        // finalMessage.style.color = "gold";
+        // finalMessage.style.fontSize = "2rem";
       }, 2000);
-    }
-  
-    // Handle input for code digits (move focus automatically)
-    codeDigits.forEach((digitInput, index) => {
-      digitInput.addEventListener('input', () => {
-        digitInput.classList.remove('code-input-shake', 'code-input-correct');
-        if (digitInput.value.length === 1 && index < codeDigits.length - 1) {
-          codeDigits[index + 1].focus();
-        }
-      });
-  
-      digitInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Backspace' && digitInput.value.length === 0 && index > 0) {
-          codeDigits[index - 1].focus();
-        }
-      });
-    });
-  
-    // Locker code check
-    submitCodeBtn.addEventListener("click", () => {
-      const enteredCode = Array.from(codeDigits).map(d => d.value).join("");
-      codeDigits.forEach(d => d.classList.remove('code-input-shake', 'code-input-correct'));
-  
-      if (enteredCode === correctLockerCode) {
-        codeFeedback.textContent = "✅ Correct! Unlocking...";
-        codeFeedback.style.color = "lightgreen";
-        
-        codeDigits.forEach(d => d.classList.add('code-input-correct'));
-        
-        // Re-open doors with animation
-        leftDoor.classList.remove("open");
-        rightDoor.classList.remove("open");
-        setTimeout(() => {
-          leftDoor.classList.add("open");
-          rightDoor.classList.add("open");
-        }, 50);
-  
-        // Transition to envelope after successful unlock and door animation
-        setTimeout(() => {
-          lockerScene.classList.remove('visible'); // Fade out locker scene
-          lockerScene.style.display = 'none';
-          showEnvelope();
-        }, 2000); // Wait for door animation + a little more
-      } else {
-        codeFeedback.textContent = "❌ Wrong code. Try again!";
-        codeFeedback.style.color = "red";
-        codeDigits.forEach(d => d.classList.add('code-input-shake'));
-  
-        setTimeout(() => {
-          codeDigits.forEach(d => {
-            d.value = '';
-            d.classList.remove('code-input-shake');
-          });
-          codeDigits[0].focus();
-        }, 600);
-      }
-    });
-  
-    // --- New Functions for Envelope and Letter ---
-  
-    function showEnvelope() {
-      surpriseContainer.style.display = 'flex';
-      setTimeout(() => {
-        surpriseContainer.classList.add('show');
-        envelopeWrapper.classList.add('show'); // Make envelope visible and fade in
-      }, 50);
-  
-      // Event listener for flipping the envelope
-      envelopeWrapper.addEventListener('click', flipEnvelope, { once: true }); // Only flip once
-    }
-  
-    function flipEnvelope() {
-      envelopeWrapper.classList.add('flipped');
-      // After flipping, user clicks again to "open" the envelope
-      envelopeWrapper.removeEventListener('click', flipEnvelope); // Remove flip listener
-      envelopeWrapper.addEventListener('click', openEnvelope, { once: true }); // Add open listener
-    }
-  
-    function openEnvelope() {
-      envelopeWrapper.classList.add('opened'); // Trigger the open animation
-      envelopeWrapper.removeEventListener('click', openEnvelope); // Remove open listener
-  
-      // After envelope animation, show the letter
-      setTimeout(() => {
-        surpriseContainer.classList.remove('show'); // Fade out surprise container
-        surpriseContainer.style.display = 'none'; // Hide it fully
-        showLetter();
-      }, 1200); // Match this with openEnvelope animation duration
-    }
-  
-    function showLetter() {
-      surpriseContainer.style.display = 'flex'; // Re-show container
-      letterContainer.style.display = 'block'; // Make letter visible
-      setTimeout(() => {
-        surpriseContainer.classList.add('show'); // Fade in container again
-        letterContainer.classList.add('show'); // Fade in letter
-      }, 50);
+    } else {
+      codeFeedback.textContent = "❌ Wrong code. Try again!";
+      codeFeedback.style.color = "red";
       
-      updateLetterPage(); // Display the first page
-      prevPageBtn.addEventListener('click', () => changePage(-1));
-      nextPageBtn.addEventListener('click', () => changePage(1));
+      // Add shake animation to all digits
+      codeDigits.forEach(d => d.classList.add('code-input-shake'));
+
+      // Clear the inputs on wrong code after animation finishes
+      setTimeout(() => {
+        codeDigits.forEach(d => {
+          d.value = '';
+          d.classList.remove('code-input-shake'); // Remove shake class after animation
+        });
+        codeDigits[0].focus(); // Focus back to the first digit
+      }, 600); // Match this with shake animation duration
     }
-  
-    function updateLetterPage() {
-      const lines = letterPage.querySelectorAll('.line');
-      const pageContent = letterContent[currentPage];
-  
-      // Clear existing content
-      lines.forEach(line => line.textContent = '');
-  
-      // Populate lines with current page content
-      pageContent.forEach((text, index) => {
-        if (lines[index]) {
-          lines[index].textContent = text;
-        }
-      });
-  
-      // Update page number
-      pageNumberSpan.textContent = `Page ${currentPage + 1} of ${letterContent.length}`;
-  
-      // Disable/enable navigation buttons
-      prevPageBtn.disabled = currentPage === 0;
-      nextPageBtn.disabled = currentPage === letterContent.length - 1;
-    }
-  
-    function changePage(direction) {
-      currentPage += direction;
-      updateLetterPage();
-    }
-  
-  </script>
+  });
+
+</script>
   
 </body>
 </html>

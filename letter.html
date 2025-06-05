@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 19th Birthday, Giohannes!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Define custom color variables for a consistent ancient theme */
+        :root {
+            --dark-gray: #686e71; /* Charcoal for text, borders, and accents */
+            --light-beige: #e1e1bf; /* Linen for main paper background */
+            --light-pink: #f6c9cf; /* Light Pink for highlights and clickable elements */
+            --line-color: rgba(54, 69, 79, 0.08); /* Even more subtle notebook lines */
+            --aged-sepia: sepia(0.12) brightness(0.98); /* Slightly stronger sepia with a touch of brightness */
+            --subtle-dark-texture: rgba(0, 0, 0, 0.03); /* Very light dark for texture overlays */
+        }
+
+        /* Basic body styling to center the content and add a more intricate background texture */
+        body {
+            font-family: 'Cormorant Garamond', serif; /* Classic font for the overall page */
+            background-color: var(--dark-gray); /* Dark background for a contrasting effect */
+            /* More complex ancient-looking background pattern */
+            background-image:
+                linear-gradient(rgba(0,0,0,0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.01) 1px, transparent 1px),
+                radial-gradient(circle at 15% 25%, var(--subtle-dark-texture) 0%, transparent 15%),
+                radial-gradient(circle at 85% 75%, var(--subtle-dark-texture) 0%, transparent 15%);
+            background-size: 20px 20px, 20px 20px, 300px 300px, 300px 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            margin: 0;
+            padding: 30px; /* Increased padding around the book */
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Styling for the main "book" container (the birthday letter) */
+        .book-container {
+            background-color: var(--light-beige); /* Paper-like background */
+            filter: var(--aged-sepia); /* Apply sepia filter for aged paper effect */
+            /* IMPORTANT CHANGE: Make the letter more horizontally longer */
+            width: clamp(500px, 90vw, 11in); /* Max width 11in (landscape) */
+            height: clamp(300px, 80vh, 8.5in); /* Max height 8.5in (landscape) */
+            padding: 60px 80px; /* Ample internal padding for a grander feel */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6); /* Deeper shadow for more depth */
+            position: relative;
+            border-radius: 8px; /* Slightly more rounded corners for elegance */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column; /* Stacks header and content vertically */
+            justify-content: space-between; /* Distributes space */
+            align-items: center; /* Center horizontally for block elements */
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: var(--dark-gray);
+            border: 3px double var(--dark-gray); /* Stronger, double border for an ancient feel */
+            /* Inner subtle texture for the paper */
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0%, transparent 70%);
+        }
+
+        /* Media query for smaller screens to adjust padding and dimensions */
+        @media (max-width: 768px) {
+            .book-container {
+                padding: 40px 50px; /* Reduced padding on smaller screens */
+                font-size: 1em;
+                /* Adjust for portrait on smaller screens */
+                width: 95vw;
+                height: 95vh;
+            }
+        }
+
+        /* Pseudo-element to create the left "spine" or edge of the book */
+        .book-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -25px; /* Positioned further outside */
+            width: 25px; /* Thicker spine */
+            background-color: var(--dark-gray); /* Dark color for the spine */
+            z-index: -1;
+            box-shadow: inset 5px 0 15px rgba(0, 0, 0, 0.4); /* More pronounced inner shadow */
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            transform: skewY(-2deg); /* Subtle skew for an organic, slightly worn look */
+            transform-origin: top left;
+        }
+
+        /* Pseudo-element to create the subtle notebook lines on the page */
+        .book-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, transparent 49px, var(--line-color) 50px);
+            background-size: 100% 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Styling for the main content area of the letter */
+        .content {
+            font-family: 'Dancing Script', cursive; /* Elegant cursive font for the main message */
+            position: relative;
+            z-index: 2;
+            white-space: pre-wrap; /* Preserves line breaks and spaces */
+            width: 100%; /* Ensures content takes full available width */
+            flex-grow: 1; /* Allows content to take up available space */
+            overflow-y: auto; /* Enables vertical scrolling */
+            padding-right: 20px; /* More padding for the scrollbar */
+            font-size: 1.6em; /* Slightly larger for better readability with cursive */
+            line-height: 1.7; /* Adjusted line height for cursive font */
+            text-shadow: 0.5px 0.5px 1px rgba(0,0,0,0.15); /* Subtle text shadow for depth */
+            text-align: justify; /* Justify text for a clean, block-like appearance */
+        }
+
+        /* Scrollbar styling for Webkit browsers (Chrome, Safari) */
+        .content::-webkit-scrollbar {
+            width: 10px; /* Width of the scrollbar */
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05); /* Track background */
+            border-radius: 5px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background-color: var(--dark-gray); /* Thumb color */
+            border-radius: 5px; /* Rounded thumb */
+            border: 3px solid var(--light-beige); /* Padding around thumb */
+        }
+
+        .content::-webkit-scrollbar-thumb:hover {
+            background-color: var(--light-pink); /* Hover color for thumb */
+        }
+
+        /* Styling for the main header of the birthday letter */
+        .header {
+            color: var(--light-pink); /* Accent color for the header */
+            font-size: 2.8em; /* Larger font size for prominence */
+            margin-bottom: 30px; /* Increased margin for better separation */
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif; /* Classic font for the header (not cursive) */
+            font-weight: 700; /* Bold text */
+            width: 100%; /* Ensures header spans the full width for centering */
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.3); /* More pronounced text shadow for header */
+            padding-bottom: 10px; /* Space below header text */
+            border-bottom: 1px dashed rgba(0,0,0,0.2); /* Subtle separation line */
+        }
+
+        /* The clickable "kid" word will use the default content styling */
+        /* Removed .amusing-word styles as requested */
+
+        /* Modal Overlay Styles (for the ancient letter popup) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); /* Slightly darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease; /* Slower fade-in/out */
+        }
+
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Ancient Letter Container Styles (the actual content of the modal) */
+        .ancient-letter-container {
+            background-color: var(--light-beige);
+            filter: var(--aged-sepia);
+            /* IMPORTANT CHANGE: Make the modal more horizontally longer */
+            width: clamp(450px, 85vw, 9.5in); /* Max width 9.5in (landscape) */
+            height: clamp(350px, 75vh, 7in); /* Max height 7in (landscape) */
+            padding: 50px 70px; /* Increased padding */
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7); /* Even deeper shadow */
+            border-radius: 10px; /* More rounded corners */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--dark-gray);
+            line-height: 1.6;
+            font-size: 1.2em;
+            border: 4px double var(--dark-gray); /* Even stronger double border */
+            /* Inner texture for the modal paper */
+            background-image: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.08) 0%, transparent 60%);
+        }
+
+        /* Header for the ancient letter */
+        .ancient-letter-header {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            font-size: 2.5em; /* Larger header for impact */
+            color: var(--light-pink);
+            margin-bottom: 35px;
+            text-align: center;
+            width: 100%;
+            text-shadow: 2px 2px 3px rgba(0,0,0,0.3);
+        }
+
+        /* Content for the ancient letter */
+        .ancient-letter-content {
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            font-size: 2.2em; /* Larger for better readability in modal */
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+            overflow-y: auto;
+            text-shadow: 0.8px 0.8px 1.5px rgba(0,0,0,0.15); /* Stronger text shadow for modal content */
+            line-height: 1.4; /* Adjusted line height for modal content */
+        }
+
+        /* Close button for the ancient letter modal */
+        .close-ancient-letter {
+            background-color: var(--dark-gray);
+            color: var(--light-beige);
+            border: 2px solid var(--light-pink);
+            border-radius: 8px; /* More rounded button */
+            padding: 10px 20px; /* Larger padding */
+            cursor: pointer;
+            font-size: 1.1em;
+            position: absolute;
+            top: 25px; /* Adjusted position */
+            right: 25px; /* Adjusted position */
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* Subtle button shadow */
+        }
+
+        .close-ancient-letter:hover {
+            background-color: var(--light-pink);
+            color: var(--dark-gray);
+            transform: scale(1.08); /* More pronounced scale up */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* Deeper shadow on hover */
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <div class="header">Happy 19th Birthday, Giohannes Ramirez</div>
+        <div class="content">
+Who knew the guy who asked for my Instagram at the gym would be the same one I’d be writing this letter for? But here we are…
+
+
+
+Dear Giohannes, 
+
+  On this very special day of yours, I want to start by wishing you and your family nothing but peace, joy, and endless blessings. May this year bring you closer to everything you hope for, success that fulfills you, moments that move you, and more guidance to what your heart desires. Today is more than just your birthday, it’s a gentle reminder of how grateful I am that you exist because no one in the gym would’ve approached me, asking for my instagram with his minions recording from my peripheral view, while I was resting from what I was struggling from, you know what I mean. I didn’t expect you to pass the next stages, and you always surprised me with the information about you that I acquired since we had so many things in common. I thought to myself that you were the boy version of me, with the same mindset and everything. Taking your time to get to know me, especially that it had to be in real life, knowing your worth and values, respectful in general, taking me to church, the way you communicate, how you carry yourself with confidence, emotionally mature, family oriented, very calm, smart, genuine, composed, has masculine presence, strong mindset, pure intentions, and not involving yourself to any substance abuse. These are the qualities of a man I described when people ask me for my type. As I got to know you more, I realized that you are totally my type. There would be times when I would say you are like a <span id="amusingTrigger" style="cursor: pointer;">kid</span>, during certain moments. I thought it was amusing how you were not getting what I meant. I just wanted you to know that I appreciate everything that you do for me, no matter how big or small it is. You make me feel special in a lot of ways, like being so thoughtful towards me, showing attentiveness as I tell you some chika, making me laugh, understanding my perspectives, sleeping so late just to talk to me, and like what you said, we are 4,560 kilometres away from each other, yet you still managed to give me gifts that you know would make me happy. I am eager to support you in any way I can and to be there for you, because it is as important for me to bring you happiness, comfort, and appreciation. And your smile, it honestly lights something in me. With you, I feel genuinely comfortable, and being so close to you was unpredictable. Unpredictable to the point where I did not think I would be looking forward to talking to someone, just to end my night with ease. What's more is that I was able to show other sides of myself that I usually keep hidden. I am truly pleased that our connection grows stronger day by day, and I hope it remains the same. From playing eye tag in the gym to writing letters for each other.
+       
+  You came in out of nowhere, like an unexpected chapter, and somehow, you became a part of the story I didn't even know I wanted to tell. 
+
+  I will see you soon. 
+
+Take care always,
+Nicole
+
+        </div>
+    </div>
+
+    <div id="ancientLetterModal" class="modal-overlay">
+        <div class="ancient-letter-container">
+            <div class="ancient-letter-header">Hint</div>
+            <div class="ancient-letter-content">
+                Kids are adorable.
+            </div>
+            <button class="close-ancient-letter">X</button>
+        </div>
+    </div>
+
+    <script>
+        // Ensure the DOM is fully loaded before executing the script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to the necessary DOM elements using their IDs and classes
+            const amusingTrigger = document.getElementById('amusingTrigger'); // The clickable word "kid"
+            const ancientLetterModal = document.getElementById('ancientLetterModal'); // The modal overlay
+            const closeAncientLetterBtn = document.querySelector('.close-ancient-letter'); // The close button within the modal
+
+            // Check if all required elements are present to prevent errors
+            if (amusingTrigger && ancientLetterModal && closeAncientLetterBtn) {
+                // Add an event listener to the "kid" word
+                amusingTrigger.addEventListener('click', () => {
+                    ancientLetterModal.classList.add('visible'); // Add 'visible' class to show the modal
+                });
+
+                // Add an event listener to the modal's close button
+                closeAncientLetterBtn.addEventListener('click', () => {
+                    ancientLetterModal.classList.remove('visible'); // Remove 'visible' class to hide the modal
+                });
+
+                // Add an event listener to the modal overlay itself
+                // This allows the modal to be closed by clicking anywhere outside the ancient letter content
+                ancientLetterModal.addEventListener('click', (event) => {
+                    // Check if the actual click target was the overlay (not a child element within the letter)
+                    if (event.target === ancientLetterModal) {
+                        ancientLetterModal.classList.remove('visible'); // Hide the modal
+                    }
+                });
+            } else {
+                // Log an error message to the console if any element is not found
+                console.error('One or more elements required for the modal functionality were not found. Please check IDs and classes.');
+            }
+        });
+    </script>
+</body>
+</html>

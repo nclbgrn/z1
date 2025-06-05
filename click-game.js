@@ -5,7 +5,7 @@ const bookContainer = document.getElementById("bookContainer");
 
 
 const buttonContainer = document.getElementById("buttonContainer");
-const messages = ["Don't click me", "Wrong one", "Try again", "Almost!", "Nope", "Hehe", "Too slow!", "Getting closer"];
+const messages = ["Don't click me", "oKaAAaaYYy", "Clickkk meee", "WhHhAAatTTtT?", "Click me again", "G", "Too slow!", "Bruhhhhh"];
 const totalButtons = 10;
 let realButtonIndex = Math.floor(Math.random() * totalButtons);
 
@@ -20,7 +20,7 @@ function createButtons() {
   for (let i = 0; i < totalButtons; i++) {
     const btn = document.createElement("button");
     btn.classList.add("click-button");
-    btn.textContent = (i === realButtonIndex) ? "CLICK ME FOR REAL 🏱" : messages[Math.floor(Math.random() * messages.length)];
+    btn.textContent = (i === realButtonIndex) ? "Reaaalllllyyyyyyyyyyy" : messages[Math.floor(Math.random() * messages.length)];
     const pos = getRandomPosition();
     btn.style.top = pos.top;
     btn.style.left = pos.left;
@@ -33,7 +33,7 @@ function createButtons() {
       });
 
       btn.addEventListener("click", () => {
-        btn.textContent = "NOPE 😝";
+        btn.textContent = "NOPE ";
         btn.style.backgroundColor = "#dc3545";
       });
     } else {
@@ -52,25 +52,27 @@ function createButtons() {
       });
 
       btn.addEventListener("click", () => {
-        // Success! Hide buttons, show envelope
-        buttonContainer.style.display = "none";
-        envelopeSection.style.display = "flex";
+        document.body.innerHTML = `
+          <div class="transition-screen">
+            <h1 class="transition-text">✨ Congrats! You did it! ✨</h1>
+            <p class="transition-subtext">You think that's all...? </p>
+          </div>
+        `;
+      
+        setTimeout(() => {
+          window.location.href = "final.html"; // Replace with your actual file
+        }, 45000); // 4.5 seconds for a dreamy pause
       });
+      
+      
     }
 
     buttonContainer.appendChild(btn);
   }
 }
 
-envelope.addEventListener("click", () => {
-    envelope.classList.toggle("flipped");
-    openLetterBtn.style.display = "block"; // Show the "open love letter" button
-  });
 
-  openLetterBtn.addEventListener("click", () => {
-    envelopeSection.style.display = "none";
-    bookContainer.style.display = "block";
-  });
+
 
 
 
@@ -78,114 +80,3 @@ envelope.addEventListener("click", () => {
 
 createButtons();
 
-let currentPage = 1;
-const flipBook = document.getElementById("flipBook");
-
-flipBook.addEventListener("click", () => {
-  currentPage++;
-  if (currentPage > 4) currentPage = 1;
-  const angle = (currentPage - 1) * -180;
-  flipBook.style.transform = `rotateY(${angle}deg)`;
-});
-
-
-envelope.addEventListener("click", () => {
-    envelope.classList.add("flipped");
-    openLetterBtn.style.display = "inline-block";
-  });
-  
-  openLetterBtn.addEventListener("click", () => {
-    envelopeSection.style.display = "none";
-    bookContainer.style.display = "block";
-  });
-  
-  let lane = 1; // middle lane
-  let distance = 0;
-  let energy = 100;
-  let isJumping = false;
-  const runner = document.getElementById("runner");
-  const meterCount = document.getElementById("meterCount");
-  const energyLevel = document.getElementById("energyLevel");
-  const lanes = [document.getElementById("lane0"), document.getElementById("lane1"), document.getElementById("lane2")];
-  
-  function switchLane(dir) {
-    lane += dir;
-    if (lane < 0) lane = 0;
-    if (lane > 2) lane = 2;
-    lanes.forEach(l => l.contains(runner) && l.removeChild(runner));
-    lanes[lane].appendChild(runner);
-  }
-  
-  function jump() {
-    if (isJumping) return;
-    isJumping = true;
-    runner.style.bottom = "60px";
-    setTimeout(() => {
-      runner.style.bottom = "0px";
-      isJumping = false;
-    }, 600);
-  }
-  
-  function createItem(type) {
-    const item = document.createElement("div");
-    item.classList.add(type === "obstacle" ? "obstacle" : "boost");
-    item.innerText = type === "obstacle" ? "🏋️" : "💊";
-    const itemLane = Math.floor(Math.random() * 3);
-    lanes[itemLane].appendChild(item);
-    item.dataset.lane = itemLane;
-  
-    item.addEventListener("animationend", () => item.remove());
-  
-    const interval = setInterval(() => {
-      if (parseInt(item.dataset.lane) === lane && !isJumping) {
-        if (type === "obstacle") {
-          energy -= 10;
-        } else if (type === "boost") {
-          energy += 10;
-          if (energy > 100) energy = 100;
-        }
-        energyLevel.textContent = energy;
-        item.remove();
-        clearInterval(interval);
-      }
-    }, 100);
-  }
-  
-  function startGymChallenge() {
-    document.getElementById("gymChallenge").style.display = "block";
-    const gameInterval = setInterval(() => {
-      distance++;
-      energy -= 1;
-      meterCount.textContent = distance;
-      energyLevel.textContent = energy;
-  
-      if (Math.random() < 0.3) createItem("obstacle");
-      if (Math.random() < 0.2) createItem("boost");
-  
-      if (distance >= 100 && energy > 0) {
-        clearInterval(gameInterval);
-        document.getElementById("gymChallenge").style.display = "none";
-        document.getElementById("bookContainer").style.display = "block";
-      }
-  
-      if (energy <= 0) {
-        clearInterval(gameInterval);
-        alert("😢 You ran out of energy! Try again!");
-        location.reload(); // restart challenge
-      }
-    }, 300);
-  }
-  
-  // Controls
-  document.addEventListener("keydown", e => {
-    if (e.key === "ArrowLeft" || e.key === "a") switchLane(-1);
-    if (e.key === "ArrowRight" || e.key === "d") switchLane(1);
-    if (e.key === " " || e.key === "ArrowUp") jump();
-  });
-  
-  // Trigger this after envelope is clicked:
-  document.getElementById("openLetterBtn").addEventListener("click", () => {
-    document.getElementById("envelopeSection").style.display = "none";
-    startGymChallenge();
-  });
-  
