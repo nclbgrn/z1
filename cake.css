@@ -213,3 +213,48 @@ body {
       50% { opacity: 1; }
       100% { opacity: 0; }
   }
+
+
+
+  #button-game {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  #buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .mystery-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #ffb6c1;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+  }
+  
+  .mystery-button:hover {
+    background-color: #ffc0cb;
+  }
+  
+  #final-message {
+    text-align: center;
+    font-size: 24px;
+    color: #ff69b4;
+    margin-top: 40px;
+  }
+  
+  .fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  
+
+
+

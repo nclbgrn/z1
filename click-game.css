@@ -1,0 +1,277 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: #2e2e2e;
+    font-family: 'Georgia', serif;
+    color: #f7d1d9;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  h1 {
+    color: #f7c6ce;
+    margin-bottom: 32px;
+    font-size: 3rem;
+    font-weight: 700;
+    text-shadow: 1px 1px 4px #a75a6e;
+    letter-spacing: 0.05em;
+    text-align: center;
+    max-width: 900px;
+  }
+
+  .button-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #3d3d3d;
+    border: 3px solid #f7c6ce;   
+    box-sizing: border-box;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  
+
+  .click-button {
+    position: absolute;
+    padding: 16px 32px;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 40px 10px 40px 10px;
+    cursor: pointer;
+    background: linear-gradient(145deg, #f7c6ce, #d497a2);
+    color: #3d3d3d;
+    box-shadow: 0 6px 14px rgba(247, 198, 207, 0.7);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 700;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    letter-spacing: 0.06em;
+  }
+  
+  .click-button:hover {
+    transform: scale(1.2) rotate(-3deg);
+    box-shadow: 0 10px 24px rgba(247, 198, 207, 0.9);
+    background: linear-gradient(145deg, #f9d7dd, #e0a5b0);
+  }
+  
+  .click-button:focus {
+    outline: 3px solid #f7d1d9;
+    outline-offset: 3px;
+  }
+
+  .click-button {
+    z-index: 10;
+  }
+  
+  
+  .book-container {
+    width: 100%;
+    max-width: 1000px;
+    perspective: 2000px;
+    margin: 0 auto;
+    user-select: text;
+    position: relative;
+  }
+  
+  .book {
+    width: 100%;
+    height: 600px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+    border: 6px double #b08665;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #f3e5d0;
+    box-shadow: 0 12px 32px rgba(91, 58, 41, 0.4);
+  }
+  
+  .page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 50px 60px;
+    box-sizing: border-box;
+    background: linear-gradient(45deg, #f4e1d2, #e8d3b3);
+    border: 1px solid #b08665;
+    box-shadow: inset 0 0 20px #c8b39b;
+    color: #5b3a29;
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    letter-spacing: 0.02em;
+    background-image: repeating-linear-gradient(to bottom, transparent, transparent 24px, rgba(91, 58, 41, 0.08) 25px, transparent 26px);
+    backface-visibility: hidden;
+  }
+  
+  .page1 { transform: rotateY(0deg) translateZ(1px); z-index: 4; }
+  .page2 { transform: rotateY(180deg) translateZ(1px); z-index: 3; }
+  .page3 { transform: rotateY(360deg) translateZ(1px); z-index: 2; }
+  .page4 { transform: rotateY(540deg) translateZ(1px); z-index: 1; }
+  
+  .page-flip-hint {
+    margin-top: 14px;
+    text-align: center;
+    color: #a67b5b;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  
+  .envelope {
+    width: 700px;
+    height: 450px;
+    perspective: 1000px;
+    position: relative;
+  }
+  
+  .envelope .front, .envelope .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    border: 4px solid #f7c6ce;
+    border-radius: 20px;
+    background: #ffffff;
+    transition: transform 0.8s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .envelope .front .heart {
+    font-size: 6rem;
+  }
+  
+  .envelope .back {
+    transform: rotateY(180deg);
+    background: #ffffff;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .envelope .photo {
+    width: 95%;
+    height: auto;
+    max-height: 90%;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+  
+  .envelope.flipped .front {
+    transform: rotateY(180deg);
+  }
+  .envelope.flipped .back {
+    transform: rotateY(360deg);
+  }
+  
+  /* 🔥 Fancy Button Below */
+  .fancy-button {
+    padding: 16px 36px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(145deg, #ff91a4, #f8c0d3);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 8px 20px rgba(255, 140, 170, 0.4), inset 0 -4px 8px rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  }
+  
+  .fancy-button:hover {
+    background: linear-gradient(145deg, #f572a2, #ffb6c1);
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 140, 170, 0.6);
+  }
+  
+  
+  #openLetterBtn {
+    display: none;
+    margin-top: 20px;
+    padding: 14px 32px;
+    font-size: 1.5rem;
+    background-color: #f7c6ce;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+  }
+  #openLetterBtn:hover {
+    background-color: #f59cbf;
+  }
+  
+  
+  
+ 
+
+  
+  .gym-challenge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .gym-top {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  .gym-track {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    width: 90%;
+    max-width: 800px;
+    height: 200px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .lane {
+    background-color: #eee;
+    flex: 1;
+    border: 2px dashed #aaa;
+    position: relative;
+    height: 100%;
+  }
+  
+  .runner {
+    font-size: 2.5rem;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: bottom 0.2s ease, left 0.2s ease;
+  }
+  
+  .obstacle, .boost {
+    position: absolute;
+    font-size: 1.8rem;
+    bottom: 0;
+    animation: moveDown 2.5s linear forwards;
+  }
+  
+  @keyframes moveDown {
+    from {
+      bottom: 100%;
+    }
+    to {
+      bottom: 0%;
+    }
+  }
+  
+  

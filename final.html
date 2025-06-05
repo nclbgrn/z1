@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🏋️‍♂️ Gym Locker Doors Challenge 🏋️‍♀️</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      background: linear-gradient(135deg, #121212 40%, #1f1f1f 100%);
+      font-family: 'Orbitron', monospace, sans-serif;
+      color: #ccc;
+      padding: 2rem 1rem 3rem;
+      user-select: none;
+    }
+    h1 {
+      font-weight: 900;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      letter-spacing: 0.15em;
+      color: #42d8f4;
+      text-shadow:
+        0 0 10px #42d8f4,
+        0 0 20px #00bfff;
+    }
+
+    #doorContainer {
+      display: grid;
+      grid-template-columns: repeat(5, 120px);
+      grid-template-rows: repeat(3, 170px);
+      gap: 1.4rem;
+      perspective: 1200px;
+    }
+
+    /* Door wrapper to contain front/back for flip */
+    .door {
+      position: relative;
+      width: 120px;
+      height: 170px;
+      cursor: pointer;
+      perspective: 1400px;
+      user-select: none;
+    }
+
+    /* Inner panel that flips */
+    .door-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+      box-shadow:
+        inset 0 3px 10px #0009,
+        0 8px 20px rgba(0,0,0,0.9);
+      border-radius: 16px;
+      border: 3px solid #444;
+      background: linear-gradient(145deg, #2e2e2e, #1a1a1a);
+      filter: drop-shadow(0 0 3px #00bfff80);
+    }
+    .door:hover .door-inner {
+      box-shadow:
+        0 0 12px #00bfff,
+        0 25px 40px #00bfff80;
+      border-color: #00bfff;
+      filter: drop-shadow(0 0 8px #08e0ffcc);
+    }
+
+    /* Front face - locker door */
+    .door-front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      backface-visibility: hidden;
+      background: linear-gradient(145deg, #2e2e2e, #1a1a1a);
+      box-shadow:
+        inset 0 3px 10px #0009;
+      border: 3px solid #444;
+      color: #00bfff;
+    }
+
+    /* Locker stripes (vertical) on front */
+    .door-front::before {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 70%;
+      background: repeating-linear-gradient(
+        to bottom,
+        #111,
+        #111 5px,
+        #222 5px,
+        #222 7px
+      );
+      border-radius: 4px;
+      z-index: 1;
+      opacity: 0.3;
+    }
+    /* Locker handle */
+    .door-front::after {
+      content: '';
+      position: absolute;
+      bottom: 25%;
+      right: 18%;
+      width: 18px;
+      height: 40px;
+      border-radius: 8px 8px 0 0;
+      background: linear-gradient(135deg, #0086cc, #004466);
+      box-shadow: 0 0 6px #00bfff;
+      border: 2px solid #006d9c;
+      z-index: 2;
+    }
+
+    /* Back face - inside locker (gym style) */
+    .door-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #003355, #001f2d);
+      box-shadow: inset 0 0 40px #00bfffcc;
+      color: #00d9ffcc;
+      backface-visibility: hidden;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      padding: 1rem;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* Flip open the door */
+    .door.open .door-inner {
+      transform: rotateY(-130deg);
+      box-shadow:
+        0 0 16px #00bfff,
+        0 28px 48px #00bfffaa;
+      cursor: default;
+    }
+
+    /* Shake animation for wrong */
+    .shake {
+      animation: shakeDoor 0.6s;
+      border-color: #ff3b3b !important;
+      box-shadow: 0 0 15px #ff3b3b !important;
+      color: #ff3b3b !important;
+      filter: drop-shadow(0 0 8px #ff3b3b);
+      background: linear-gradient(145deg, #3c0f0f, #150606) !important;
+    }
+    @keyframes shakeDoor {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-12px) rotateZ(-5deg); }
+      40%, 80% { transform: translateX(12px) rotateZ(5deg); }
+    }
+
+    #message {
+      min-height: 48px;
+      margin: 1.4rem 0 1.6rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #42d8f4;
+      text-shadow:
+        0 0 6px #42d8f4aa,
+        0 0 8px #00bfffaa;
+      user-select: none;
+      text-align: center;
+    }
+
+    #questionSection {
+      display: none;
+      background: #101010cc;
+      backdrop-filter: blur(5px);
+      border: 3px solid #00bfff;
+      border-radius: 16px;
+      max-width: 420px;
+      width: 90%;
+      padding: 1.4rem 1.6rem;
+      box-shadow: 0 0 20px #00bfffaa;
+      user-select: text;
+      margin: 0 auto;
+    }
+    #questionText {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #a0e9ff;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+
+    #answerInput {
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      margin-bottom: 1rem;
+      font-family: 'Orbitron', monospace, sans-serif;
+      box-shadow: 0 0 12px #005f9e inset;
+      background: #0a0a0a;
+      color: #00bfff;
+      transition: box-shadow 0.3s ease;
+    }
+    #answerInput:focus {
+      box-shadow: 0 0 18px #00bfff;
+      background: #071b2c;
+    }
+
+    #submitBtn {
+      width: 100%;
+      background: #00bfff;
+      border: none;
+      font-weight: 700;
+      font-size: 1.15rem;
+      padding: 0.6rem 0;
+      border-radius: 12px;
+      color: #121212;
+      cursor: pointer;
+      box-shadow: 0 5px 12px #00bfffaa;
+      transition: background 0.25s ease;
+      font-family: 'Orbitron', monospace, sans-serif;
+      user-select: none;
+    }
+    #submitBtn:hover:not(:disabled) {
+      background: #0af;
+      box-shadow: 0 6px 16px #33ccffcc;
+    }
+    #submitBtn:disabled {
+      background: #005f9e;
+      cursor: not-allowed;
+      box-shadow: none;
+      color: #a0d9ff;
+    }
+
+    #feedback {
+      color: #ff5050;
+      font-weight: 700;
+      min-height: 24px;
+      text-align: center;
+      letter-spacing: 0.04em;
+      margin-top: 0.3rem;
+      text-shadow: 0 0 5px #330000;
+    }
+
+    #finalMessage {
+      margin-top: 2.5rem;
+      font-size: 2rem;
+      font-weight: 900;
+      color: #00f0ff;
+      text-shadow:
+        0 0 20px #00e0ff,
+        0 0 30px #00bfff;
+      user-select: none;
+      text-align: center;
+      letter-spacing: 0.12em;
+    }
+
+  </style>
+  <div id="finalMessage"></div>
+
+  <div id="codeSection" style="display: none; margin-top: 2rem;">
+    <p style="text-align:center; font-size: 1.2rem;">Enter the final locker code to unlock it:</p>
+    <input id="codeInput" type="text" maxlength="4" placeholder="Enter code" style="padding: 0.5rem 1rem; border-radius: 10px; font-family: 'Orbitron'; font-size: 1.2rem;">
+    <button id="unlockBtn" style="margin-top: 0.8rem; padding: 0.5rem 1.2rem; border-radius: 8px; font-weight: bold; background: #00bfff; border: none; color: black; cursor: pointer;">Unlock</button>
+    <div id="codeFeedback" style="margin-top: 0.5rem; font-weight: bold; text-align: center;"></div>
+  </div>
+
+  <script>
+    // your JavaScript...
+  </script>
+
+  
+</head>
+<body>
+
+  <h1>🏋️‍♂️ Find the Right Locker Door 🏋️‍♀️</h1>
+
+  <div id="doorContainer"></div>
+
+  <div id="message">Choose a door and test your instincts...</div>
+
+  <div id="questionSection" aria-live="polite" role="dialog" aria-modal="true">
+    <div id="questionText"></div>
+    <input id="answerInput" type="text" autocomplete="off" placeholder="Type your answer here" />
+    <button id="submitBtn" disabled>Submit</button>
+    <div id="feedback" aria-live="assertive"></div>
+  </div>
+
+  <div id="finalMessage"></div>
+
+<script>
+  const doorContainer = document.getElementById('doorContainer');
+  const message = document.getElementById('message');
+  const questionSection = document.getElementById('questionSection');
+  const questionText = document.getElementById('questionText');
+  const answerInput = document.getElementById('answerInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const feedback = document.getElementById('feedback');
+  const finalMessage = document.getElementById('finalMessage');
+
+  // Relationship questions & acceptable answers (lowercase)
+  const questions = [
+    { q: "Where did we have our first date?", a: ["park", "restaurant", "cafe"] },
+    { q: "What's my favorite color?", a: ["pink", "red", "ff416c"] },
+    { q: "What’s my go-to coffee order?", a: ["latte", "espresso"] },
+    { q: "Which movie did we watch first together?", a: ["inception", "avengers", "matrix"] },
+    { q: "What's my favorite gym workout?", a: ["biceps", "cardio", "yoga"] },
+    { q: "Where do I want to travel next?", a: ["japan", "paris", "bali"] },
+    { q: "What’s my favorite comfort food?", a: ["pizza", "burger", "ice cream"] },
+    { q: "What pet do I want someday?", a: ["dog", "cat", "rabbit"] },
+    { q: "What’s my favorite music genre?", a: ["pop", "rock", "kpop"] },
+    { q: "What’s the nickname I call you?", a: ["babe", "love", "honey"] },
+  ];
+
+  let questionsAnswered = 0;
+  let doorsPressed = 0;
+  let questionActive = false;
+  let openDoor = null;
+
+  // Create 15 gym locker doors
+  function createDoors() {
+    doorContainer.innerHTML = '';
+    for(let i=1; i<=15; i++) {
+      const door = document.createElement('div');
+      door.classList.add('door');
+      door.dataset.index = i;
+      door.setAttribute('tabindex', '0');
+      door.setAttribute('aria-label', `Locker door number ${i}`);
+
+      // inner container to flip
+      const inner = document.createElement('div');
+      inner.classList.add('door-inner');
+
+      // front face
+      const front = document.createElement('div');
+      front.classList.add('door-front');
+
+      // back face - simple text
+      const back = document.createElement('div');
+      back.classList.add('door-back');
+      back.textContent = "Locker";
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      door.appendChild(inner);
+
+      door.addEventListener('click', () => doorClicked(door));
+      door.addEventListener('keydown', (e) => {
+        if(e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          doorClicked(door);
+        }
+      });
+
+      doorContainer.appendChild(door);
+    }
+  }
+
+  function disableDoors(disabled) {
+    const doors = doorContainer.querySelectorAll('.door');
+    doors.forEach(d => {
+      if(disabled) {
+        d.style.pointerEvents = 'none';
+        d.setAttribute('aria-disabled', 'true');
+      } else {
+        d.style.pointerEvents = '';
+        d.removeAttribute('aria-disabled');
+      }
+    });
+  }
+
+  answerInput.addEventListener('input', () => {
+    submitBtn.disabled = answerInput.value.trim() === '';
+    feedback.textContent = '';
+  });
+
+  function closeOpenDoor() {
+    if(openDoor) {
+      openDoor.classList.remove('open');
+      openDoor = null;
+    }
+  }
+
+  function doorClicked(door) {
+    if(questionActive) return; // ignore clicks while question active
+
+    doorsPressed++;
+
+    // Close previously opened door if any
+    closeOpenDoor();
+
+    // Open the clicked door (flip animation)
+    door.classList.add('open');
+    openDoor = door;
+
+    if (doorsPressed < 11) {
+  // Show a question
+  showQuestion(questions[questionsAnswered]);
+} else {
+  message.textContent = "You found the right locker! Final step...";
+  questionSection.style.display = 'none';
+  answerInput.value = '';
+  feedback.textContent = '';
+  finalMessage.textContent = "🔒 Final Security Step!";
+  codeSection.style.display = 'block'; // show code entry
+  disableDoors(true);
+}
+  }
+
+  
+
+  function showQuestion(question) {
+    questionActive = true;
+    questionSection.style.display = 'block';
+    questionText.textContent = question.q;
+    answerInput.value = '';
+    feedback.textContent = '';
+    setInputDisabled(false);
+    answerInput.focus();
+  }
+
+  function setInputDisabled(val) {
+    answerInput.disabled = val;
+    submitBtn.disabled = val || !answerInput.value.trim();
+  }
+
+  submitBtn.onclick = () => {
+    const currentQ = questions[questionsAnswered];
+    const userAns = answerInput.value.toLowerCase().trim();
+    const correct = currentQ.a.some(ans => userAns.includes(ans));
+
+    if(correct) {
+      feedback.style.color = "#4fff68";
+      feedback.textContent = 'Correct!';
+      questionsAnswered++;
+      setTimeout(() => {
+        questionSection.style.display = 'none';
+        feedback.textContent = '';
+        answerInput.value = '';
+        message.textContent = "Choose another locker door...";
+        questionActive = false;
+      }, 1100);
+    } else {
+      feedback.style.color = "#ff5050";
+      feedback.textContent = 'Try again.';
+    }
+  };
+
+  createDoors();
+
+  const codeSection = document.getElementById('codeSection');
+const codeInput = document.getElementById('codeInput');
+const unlockBtn = document.getElementById('unlockBtn');
+const codeFeedback = document.getElementById('codeFeedback');
+
+unlockBtn.onclick = () => {
+  const enteredCode = codeInput.value.trim();
+  if (enteredCode === "0002") {
+    codeFeedback.style.color = "#4fff68";
+    codeFeedback.textContent = "✅ Locker unlocked! You cracked the final code!";
+    finalMessage.textContent = "🎉 WELCOME TO THE ELITE LOCKER ROOM! 🎉";
+  } else {
+    codeFeedback.style.color = "#ff5050";
+    codeFeedback.textContent = "❌ Wrong code. Try again.";
+  }
+};
+
+
+</script>
+</body>
+</html>

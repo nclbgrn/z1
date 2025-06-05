@@ -69,14 +69,24 @@ document.addEventListener("DOMContentLoaded", function () {
           updateCandleCount();
         }
   
-        // If all candles are blown out, trigger confetti after a small delay
         if (candles.every((candle) => candle.classList.contains("out"))) {
           setTimeout(function() {
             triggerConfetti();
             endlessConfetti(); // Start the endless confetti
           }, 200);
+        
           audio.play();
+        
+          // ⏳ Wait 3.5 seconds then go to the challenge page
+          setTimeout(() => {
+            document.body.classList.add("fade-out");
+            setTimeout(() => {
+              window.location.href = "click-game.html";
+            }, 1000); // matches CSS fade duration
+          }, 3500);
+          
         }
+        
       }
     }
   
@@ -118,3 +128,9 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }, 1000);
   }
+
+  
+  
+
+
+  
