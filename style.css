@@ -125,7 +125,7 @@ body {
   left: 50%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust for its own size */
   background: radial-gradient(circle, #ffe4ec, #ffccdd);
-  color: #ff1493;
+  color: #ffffff;
   padding: 30px 60px; /* Slightly larger padding */
   font-size: 32px; /* Larger font */
   font-weight: bold;
@@ -134,7 +134,7 @@ body {
   text-align: center;
   z-index: 999;
   animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Bouncier popIn */
-  border: 4px solid #ff69b4; /* Pink border */
+  border: 4px solid #debccd; /* Pink border */
   text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
