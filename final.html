@@ -29,9 +29,9 @@
       font-size: 2.8rem;
       margin-bottom: 2rem;
       letter-spacing: 0.15em;
-      color: #42d8f4;
+      color: #99c0c6;
       text-shadow:
-        0 0 10px #42d8f4,
+        0 0 10px #3bc2d9,
         0 0 20px #00bfff;
     }
 
@@ -72,7 +72,7 @@
       box-shadow:
         0 0 12px #00bfff,
         0 25px 40px #00bfff80;
-      border-color: #00bfff;
+      border-color: #478aa0;
       filter: drop-shadow(0 0 8px #08e0ffcc);
     }
 
@@ -87,7 +87,7 @@
       box-shadow:
         inset 0 3px 10px #0009;
       border: 3px solid #444;
-      color: #00bfff;
+      color: #5d9eb4;
     }
 
     /* Locker stripes (vertical) on front */
@@ -119,8 +119,8 @@
       width: 18px;
       height: 40px;
       border-radius: 8px 8px 0 0;
-      background: linear-gradient(135deg, #0086cc, #004466);
-      box-shadow: 0 0 6px #00bfff;
+      background: linear-gradient(135deg, #0086cc, #0e3244);
+      box-shadow: 0 0 6px #b5d1db;
       border: 2px solid #006d9c;
       z-index: 2;
     }
@@ -603,7 +603,7 @@
 
   <div id="doorContainer"></div>
 
-  <div id="message">Choose a door and test your instincts...</div>
+  <div id="message">Hint: None</div>
 
   <div id="questionSection" aria-live="polite" role="dialog" aria-modal="true">
     <div id="questionText"></div>
@@ -800,7 +800,7 @@
         questionActive = false;
         // Check if all questions are answered after a correct answer
         if (questionsAnswered === questions.length) {
-          message.textContent = "All questions answered! Time for the final challenge...";
+          message.textContent = "Wow, you found the right one. Good job.";
           setTimeout(() => {
             showLockerScene();
             disableDoors(true);
