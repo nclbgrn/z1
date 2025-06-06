@@ -68,7 +68,7 @@ function createButtons() {
     }
 
     buttonContainer.appendChild(btn);
-  }
+}
 }
 
 
