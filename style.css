@@ -2,136 +2,153 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Comic Sans MS', cursive, sans-serif;
-  background: linear-gradient(to bottom, #ffe4ec, #fff);
+  background: linear-gradient(to bottom, #f0eaea, #fff);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
+  overflow-x: hidden; /* Prevent horizontal scrollbar if maze is wide */
 }
 
-/* --- Header Enhancements --- */
+/* --- Header Enhancements (Your existing, which are already cool!) --- */
 .fancy-header {
-  font-size: 2.8rem; /* Slightly larger for impact */
-  background: linear-gradient(90deg, #ff69b4, #ffb347, #ff69b4); /* Pink, orange, pink gradient */
+  font-size: 2.8rem;
+  background: linear-gradient(90deg, #ff69b4, #ffb347, #ff69b4);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: shimmer 3s infinite linear;
   text-align: center;
   margin: 30px 20px;
-  text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.7); /* More prominent shadow */
+  text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.7);
   position: relative;
-  letter-spacing: 2px; /* Add some spacing for readability */
+  letter-spacing: 2px;
 }
 
 @keyframes shimmer {
-  0% {
-    background-position: -500px 0;
-  }
-  100% {
-    background-position: 500px 0;
-  }
+  0% { background-position: -500px 0; }
+  100% { background-position: 500px 0; }
 }
 
 .fancy-header::after {
   content: '✨';
   animation: sparkle 1s infinite ease-in-out alternate;
   position: absolute;
-  right: -35px; /* Adjust position */
-  top: -15px; /* Adjust position */
-  font-size: 1.8rem; /* Larger sparkle */
+  right: -35px;
+  top: -15px;
+  font-size: 1.8rem;
 }
 
 @keyframes sparkle {
-  0% {
-    opacity: 0.3;
-    transform: scale(1) rotate(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1.4) rotate(25deg); /* More pronounced sparkle */
-  }
+  0% { opacity: 0.3; transform: scale(1) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1.4) rotate(25deg); }
 }
 
-
-
-
-
+/* --- Maze Container & Cells --- */
 #maze-container {
+  /* Dynamic grid columns based on JS, but setting a default here for initial layout */
   display: grid;
-  grid-template-columns: repeat(20, 40px);
-  grid-template-rows: repeat(20, 40px);
-  gap: 2px;
+  /* grid-template-columns will be set by JavaScript based on MAZE_COLS */
+  /* grid-template-rows will be set by JavaScript based on MAZE_ROWS */
+  gap: 2px; /* Small gap between cells */
   margin: 20px auto;
   width: fit-content;
-  border: 5px double #ff69b4;
+  border: 5px double #070003; /* Your original lovely border */
   padding: 20px;
-  background: rgba(255, 240, 245, 0.6);
-  box-shadow: 0 0 30px rgba(255, 105, 180, 0.4);
+  background: rgba(255, 255, 255, 0.804); /* Your original background */
+  box-shadow: 0 0 30px #eba3e766;
   border-radius: 12px;
   position: relative;
   z-index: 1;
+  /* Add a smooth transition for maze appearance */
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
 }
 
 .cell {
-  width: 40px;
-  height: 40px;
-  background: #f8f8f8;
-  border-radius: 10px;
-  transition: transform 0.2s ease;
+  width: 40px; /* Cell size as defined in your JS */
+  height: 40px; /* Cell size as defined in your JS */
+  background: #f8f8f8; /* Path background */
+  border-radius: 10px; /* Soft rounded corners */
+  box-sizing: border-box; /* Include padding/border in cell dimensions */
+  transition: background-color 0.2s ease; /* Smooth color change for paths */
 }
 
 .wall {
-  background: linear-gradient(145deg, #444, #222);
-  box-shadow: inset 0 0 5px #00000099;
+  background: linear-gradient(145deg, #000000, hwb(300 34% 64%)); /* Dark, textured walls */
+  box-shadow: inset 0 0 5px #190c0c99; /* Inner shadow for depth */
+  border-radius: 5px; /* Slightly less rounded for walls */
+  transition: background-color 0.2s ease;
 }
 
+/* --- Player Character (Combined with yours and mine for better effect) --- */
 .player {
-  background-color: #ff66b2;
-  animation: playerBounce 0.4s infinite alternate;
-  box-shadow: 0 0 10px #ff66b2;
-  border-radius: 50%;
-  transform: scale(1.1);
+  background-color: #243237; /* Deep sky blue character from my example */
+  border-radius: 50%; /* Perfect circle */
+  box-shadow: 0 0 15px rgba(203, 59, 141, 0.8); /* Stronger glow effect */
+  /* Animation for idle character */
+  animation: playerBob 1.2s infinite ease-in-out alternate;
+  transform: scale(1.05); /* Slightly larger than cell to show it's alive */
+  position: relative; /* Important for z-index and animations */
+  z-index: 2; /* Ensure player is above other cells */
 }
 
+/* Your original bounce animation (renamed to playerBob for clarity) */
+@keyframes playerBob {
+  from { transform: translateY(0) scale(1.05); }
+  to { transform: translateY(-8px) scale(1.1); } /* More pronounced bob */
+}
+
+/* Movement feedback - character pulsing */
+.player.moving {
+    animation: playerPulse 0.4s infinite alternate; /* Faster pulse when moving */
+}
+
+@keyframes playerPulse {
+    from { transform: scale(1.05); }
+    to { transform: scale(1.15); } /* More exaggerated pulse */
+}
+
+
+/* --- Cake Styling (Slightly improved, but invisible per your request for the game) --- */
 .cake {
-  background-image: url("assets/cake.png");
-  background-size: cover;
-}
-
-@keyframes bounce {
-  from { transform: translateY(0); }
-  to { transform: translateY(-5px); }
+  /* This class will be applied to the cake cell, but it remains invisible for the game. */
+  /* If you want a *very subtle hint* or for debugging, you can uncomment some of these: */
+  /* background-color: rgba(255, 192, 203, 0.05); /* Very subtle pinkish hue */
+  /* border: 1px dashed rgba(255, 105, 180, 0.2); */
 }
 
 
-
-
-
+/* --- Win Message (Your existing, with minor animation enhancement) --- */
 #win-message {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: fixed; /* Use fixed so it's always centered in viewport */
+  top: 50%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust for its own size */
   background: radial-gradient(circle, #ffe4ec, #ffccdd);
   color: #ff1493;
-  padding: 25px 50px;
-  font-size: 28px;
+  padding: 30px 60px; /* Slightly larger padding */
+  font-size: 32px; /* Larger font */
   font-weight: bold;
-  border-radius: 20px;
-  box-shadow: 0 0 25px rgba(255, 105, 180, 0.6);
+  border-radius: 25px; /* More rounded */
+  box-shadow: 0 0 35px rgba(255, 105, 180, 0.8), 0 0 15px rgba(255, 255, 255, 0.5) inset; /* Dual shadow */
   text-align: center;
   z-index: 999;
-  animation: popIn 0.8s ease forwards;
+  animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Bouncier popIn */
+  border: 4px solid #ff69b4; /* Pink border */
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
 @keyframes popIn {
   0% {
-    transform: translate(-50%, -50%) scale(0.5);
+    transform: translate(-50%, -50%) scale(0.3) rotate(-10deg);
     opacity: 0;
   }
+  70% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+    opacity: 1;
+  }
   100% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
     opacity: 1;
   }
 }

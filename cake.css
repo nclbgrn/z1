@@ -1,29 +1,36 @@
 body {
-    background-color: #ffe5ec;
+    background-color: #282526;
   }
   
-  .candle-count-display {
-    text-align: center;
-    margin-top: 150px;
-    margin-bottom: 20px;
-    font-family: 'Arial', sans-serif;
-    font-size: 30px;
-    font-weight: bold;
-    color: #f0e4d0;
-    background-color: #ff8fab;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid #ffc2d1;
-  }
-  
-  .candle-count-display span {
-    font-weight: bold;
-    color: #AD030F;
-  }
+ /* Candle Count Display - More prominent and playful */
+.candle-count-display {
+  text-align: center;
+  margin-top: 150px;
+  margin-bottom: 30px; /* Slightly more space */
+  font-family: 'Pacifico', cursive; /* A fun, script font for the display */
+  font-size: 38px; /* Larger font size */
+  font-weight: bold;
+  color: #fff; /* White text for better contrast */
+  background: linear-gradient(
+    45deg,
+    #f194a4,
+    #fbcfd5
+  ); /* Subtle gradient background */
+  padding: 15px 30px; /* More padding */
+  border-radius: 15px; /* Softer rounded corners */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Deeper, more noticeable shadow */
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  border: 3px solid #ffc2d1; /* Thicker border */
+  animation: pulse 2s infinite alternate; /* Gentle pulse animation */
+}
+
+.candle-count-display span {
+  font-weight: 900; /* Extra bold */
+  color: #382d2e; /* Stronger red */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Text shadow for depth */
+}
   
   .cake {
     position: absolute;
@@ -41,7 +48,7 @@ body {
     position: absolute;
     bottom: -10px;
     left: -10px;
-    background-color: #ccc;
+    background-color: #f1e2e2;
     border-radius: 50%;
     box-shadow: 0 2px 0 #b3b3b3, 0 4px 0 #b3b3b3, 0 5px 40px rgba(0, 0, 0, 0.5);
   }
@@ -57,7 +64,7 @@ body {
     height: 100px;
     border-radius: 50%;
     background-color: #ffc2d1;
-    box-shadow: 0 2px 0px #fb6f92, 0 4px 0px #ff8fab, 0 6px 0px #ff8fab, 0 8px 0px #ff8fab, 0 10px 0px #ff8fab, 0 12px 0px #ff8fab, 0 14px 0px #ff8fab, 0 16px 0px #ff8fab, 0 18px 0px #ff8fab, 0 20px 0px #ff8fab, 0 22px 0px #ff8fab, 0 24px 0px #ff8fab, 0 26px 0px #ff8fab, 0 28px 0px #ff8fab, 0 30px 0px #ff8fab;
+    box-shadow: 0 2px 0px hsl(345, 100%, 95%), 0 4px 0px hsl(345, 74%, 83%), 0 6px 0px #edcbd2, 0 8px 0px #ff8fab, 0 10px 0px #ff8fab, 0 12px 0px #e39bad, 0 14px 0px #ff8fab, 0 16px 0px #f37896, 0 18px 0px #ff8fab, 0 20px 0px #ff8fab, 0 22px 0px #f8e6eb, 0 24px 0px #ff8fab, 0 26px 0px #ff8fab, 0 28px 0px #ff8fab, 0 30px 0px #ff8fab;
   }
   
   .layer-top {
@@ -75,7 +82,7 @@ body {
   .icing {
     top: 2px;
     left: 5px;
-    background-color: #f0e4d0;
+    background-color: #e8e1d4;
     width: 240px;
     height: 90px;
     border-radius: 50%;
@@ -125,7 +132,7 @@ body {
   }
   
   .candle {
-    background-color: #7B020B;
+    background-color: #2b2425;
     width: 12px;
     height: 35px;
     border-radius: 6px/3px;
@@ -142,7 +149,7 @@ body {
     width: 12px;
     height: 6px;
     border-radius: 50%;
-    background-color: #ad030f;
+    background-color: #f3d3d6;
   }
   
   .candle.out .flame {
@@ -193,7 +200,7 @@ body {
       bottom: 0;
       width: 100%;
       background-color: #f8f9fa;
-      color: #fb6f92;
+      color: #7a656a;
       text-align: center;
       padding: 10px 0;
       font-size: 14px;
